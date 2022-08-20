@@ -5,18 +5,18 @@ public:
 	Hero(): Asset("assets/hero.png") {}
 
 	void moveUp() {
-		if (--posj == -1) posj = 0;
+		if (--pos.y == -1) pos.y = 0;
 	}
 
 	void moveDown() {
-		if (++posj == RHEIGHT) posj = RHEIGHT - 1;
+		if (++pos.y == RHEIGHT) pos.y = RHEIGHT - 1;
 	}
 
 	void moveRight() {
-		if (++posi == RWIDTH) posi = RWIDTH - 1;
+		if (++pos.x == RWIDTH) pos.x = RWIDTH - 1;
 	}
 
 	void moveLeft() {
-		if (--posi == -1) posi = 0;
+		if (--pos.x == -1) pos.x = 0;
 	}
 };

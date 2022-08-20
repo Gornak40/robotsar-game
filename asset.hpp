@@ -1,11 +1,15 @@
 #pragma once
+
+#include "include.hpp"
+
+using namespace std;
 using namespace sf;
 
 class Asset {
 protected:
 	Texture texture;
 	Sprite sprite;
-	int posi = 0, posj = 0;
+	Vector2<int> pos = {0, 0};
 
 	Asset() {}
 
@@ -16,13 +20,16 @@ public:
 		sprite.setScale(2, 2);
 	}
 
-	void move(int i, int j) {
-		posi = i;
-		posj = j;
+	void setPos(const Vector2<int> &p) {
+		pos = p;
+	}
+
+	const Vector2<int>& getPos() const {
+		return pos;
 	}
 
 	const Sprite& getSprite() {
-		sprite.setPosition(posi * R, posj * R);
+		sprite.setPosition(pos.x * R, pos.y * R);
 		return sprite;
 	}
 };

@@ -1,7 +1,7 @@
-#include <SFML/Graphics.hpp>
-#include "config.hpp"
+#include "include.hpp"
 #include "backtile.hpp"
 #include "hero.hpp"
+#include "crown.hpp"
 
 using namespace sf;
 
@@ -10,6 +10,7 @@ private:
 	RenderWindow window;
 	Backtile backtile;
 	Hero hero;
+	Crown crown;
 
 	void input() {	
 		for (Event event; window.pollEvent(event);) {
@@ -37,22 +38,32 @@ private:
 					break;
 				default:
 					break;
-			}	
+			}
 		}
 	}
 
+	void win() {
+		cout << "YOU WIN!" << endl;
+		window.close();
+	}
+
 	void update() {
-		window.clear(Color::Blue);
-		for (int i = 0; i < RWIDTH; ++i)
-			for (int j = 0; j < RHEIGHT; ++j) {
-				backtile.move(i, j);
-				window.draw(backtile.getSprite());
-			}
-		window.draw(hero.getSprite());
+		
 	}
 
 	void draw() {
+		for (int i = 0; i < RWIDTH; ++i)
+			for (int j = 0; j < RHEIGHT; ++j) {
+				backtile.setPos({i, j});
+				window.draw(backtile.getSprite());
+			}
+		window.draw(crown.getSprite());
+		window.draw(hero.getSprite());
 		window.display();
+	}
+
+	void check() {
+		if (hero.getPos() == crown.getPos()) win();
 	}
 
 	void start() {
@@ -60,6 +71,7 @@ private:
 			input();
 			update();
 			draw();
+			check();
 		}
 	}
 
