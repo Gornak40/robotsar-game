@@ -5,6 +5,7 @@ class Asset {
 protected:
 	Texture texture;
 	Sprite sprite;
+	int posi = 0, posj = 0;
 
 	Asset() {}
 
@@ -16,10 +17,12 @@ public:
 	}
 
 	void move(int i, int j) {
-		sprite.setPosition(R * i, R * j);
+		posi = i;
+		posj = j;
 	}
 
-	Sprite getSprite() {
+	const Sprite& getSprite() {
+		sprite.setPosition(posi * R, posj * R);
 		return sprite;
 	}
 };
