@@ -1,5 +1,5 @@
 #include "include.hpp"
-#include "backtile.hpp"
+#include "backtiles.hpp"
 #include "hero.hpp"
 #include "crown.hpp"
 
@@ -8,7 +8,7 @@ using namespace sf;
 class Engine {
 private:
 	RenderWindow window;
-	Backtile backtile;
+	BacktileBundle backtiles;
 	Hero hero;
 	Crown crown;
 
@@ -48,22 +48,19 @@ private:
 	}
 
 	void update() {
-		
+
 	}
 
 	void draw() {
-		for (int i = 0; i < RWIDTH; ++i)
-			for (int j = 0; j < RHEIGHT; ++j) {
-				backtile.setPos({i, j});
-				window.draw(backtile.getSprite());
-			}
-		window.draw(crown.getSprite());
-		window.draw(hero.getSprite());
+		window.clear();
+		backtiles.draw(window);
+		crown.draw(window);
+		hero.draw(window);
 		window.display();
 	}
 
 	void check() {
-		if (hero.getPos() == crown.getPos()) win();
+		if (hero.collide(&crown)) win();
 	}
 
 	void start() {

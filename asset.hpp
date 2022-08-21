@@ -9,11 +9,11 @@ class Asset {
 protected:
 	Texture texture;
 	Sprite sprite;
-	Vector2<int> pos = {0, 0};
-
-	Asset() {}
+	Vector2i pos = {0, 0};
 
 public:
+	Asset() {}
+
 	Asset(const char *name) {
 		texture.loadFromFile(name);
 		sprite.setTexture(texture);
@@ -28,8 +28,12 @@ public:
 		return pos;
 	}
 
-	const Sprite& getSprite() {
+	void draw(RenderWindow &window) {
 		sprite.setPosition(pos.x * R, pos.y * R);
-		return sprite;
+		window.draw(sprite);
+	}
+
+	bool collide(const Asset *obj) const {
+		return getPos() == obj -> getPos();
 	}
 };
