@@ -1,7 +1,8 @@
 #include "include.hpp"
 #include "backtiles.hpp"
-#include "hero.hpp"
+#include "bombs.hpp"
 #include "crown.hpp"
+#include "hero.hpp"
 
 using namespace sf;
 
@@ -11,6 +12,7 @@ private:
 	BacktileBundle backtiles;
 	Hero hero;
 	Crown crown;
+	BombBundle bombs;
 
 	void input() {	
 		for (Event event; window.pollEvent(event);) {
@@ -47,28 +49,35 @@ private:
 		window.close();
 	}
 
-	void update() {
+	void lose() {
+		cout << "YOU LOSE!" << endl;
+		window.close();
+	}
+
+	void preUpdate() {
 
 	}
 
 	void draw() {
 		window.clear();
 		backtiles.draw(window);
+		bombs.draw(window);
 		crown.draw(window);
 		hero.draw(window);
 		window.display();
 	}
 
-	void check() {
+	void postUpdate() {
 		if (hero.collide(&crown)) win();
+		if (bombs.collide(&hero)) lose();
 	}
 
 	void start() {
 		while (window.isOpen()) {
 			input();
-			update();
+			preUpdate();
 			draw();
-			check();
+			postUpdate();
 		}
 	}
 

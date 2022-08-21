@@ -5,3 +5,4 @@ const int WIDTH = RWIDTH * R;
 const int HEIGHT = RHEIGHT * R;
 const int FPS = 30;
 const bool VERTSYNC = true;
+const int NUMBOMBS = 12;

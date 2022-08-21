@@ -1,28 +1,47 @@
-#include "asset.hpp"
+#pragma once
+
+#include "actor.hpp"
 
 using namespace sf;
 
 class Bundle {
 protected:
 	vector<Vector2i> poses;
-	Asset asset;
+	Actor actor;
 
 	Bundle() {}
 
 public:
-	Bundle(const char *name): asset(name) {}
+	Bundle(const char *name): actor(name) {}
 
 	void draw(RenderWindow &window) {
 		for (const auto &p: poses) {
-			asset.setPos(p);
-			asset.draw(window);
+			actor.setPos(p);
+			actor.draw(window);
 		}
 	}
 
-	bool collide(const Asset *obj, bool erase=true) {
-		auto it = find(poses.begin(), poses.end(), obj -> getPos());
+	void push(const Vector2i &p) {
+		poses.push_back(p);
+	}
+
+	bool pop(const Vector2i &p) {
+		auto it = find(poses.begin(), poses.end(), p);
 		if (it == poses.end()) return false;
-		if (erase) poses.erase(it);
+		poses.erase(it);
 		return true;
+	}
+
+	bool pop(const Actor *obj) {
+		return pop(obj -> getPos());
+	}
+
+	bool collide(const Vector2i &p) const {
+		auto it = find(poses.begin(), poses.end(), p);
+		return it != poses.end();
+	}
+
+	bool collide(const Actor *obj) const {
+		return collide(obj -> getPos());
 	}
 };

@@ -5,16 +5,16 @@
 using namespace std;
 using namespace sf;
 
-class Asset {
+class Actor {
 protected:
 	Texture texture;
 	Sprite sprite;
 	Vector2i pos = {0, 0};
 
 public:
-	Asset() {}
+	Actor() {}
 
-	Asset(const char *name) {
+	Actor(const char *name) {
 		texture.loadFromFile(name);
 		sprite.setTexture(texture);
 		sprite.setScale(2, 2);
@@ -33,7 +33,11 @@ public:
 		window.draw(sprite);
 	}
 
-	bool collide(const Asset *obj) const {
+	bool collide(const Vector2i &p) const {
+		return getPos() == p;
+	}
+
+	bool collide(const Actor *obj) const {
 		return getPos() == obj -> getPos();
 	}
 };

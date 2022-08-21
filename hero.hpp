@@ -1,8 +1,8 @@
-#include "asset.hpp"
+#include "actor.hpp"
 
-class Hero: public Asset {
+class Hero: public Actor {
 public:
-	Hero(): Asset("assets/hero.png") {}
+	Hero(): Actor("assets/hero.png") {}
 
 	void moveUp() {
 		if (--pos.y == -1) pos.y = 0;

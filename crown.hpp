@@ -1,8 +1,8 @@
-#include "asset.hpp"
+#include "actor.hpp"
 
-class Crown: public Asset {
+class Crown: public Actor {
 public:
-	Crown(): Asset("assets/crown.png") {
+	Crown(): Actor("assets/crown.png") {
 		setPos({RWIDTH - 1, RHEIGHT - 1});
 	}
 };
