@@ -10,6 +10,7 @@ protected:
 	Texture texture;
 	Sprite sprite;
 	Vector2i pos = {0, 0};
+	bool isHide = false;
 
 public:
 	Actor() {}
@@ -29,6 +30,7 @@ public:
 	}
 
 	void draw(RenderWindow &window) {
+		if (isHide) return;
 		sprite.setPosition(pos.x * R, pos.y * R);
 		window.draw(sprite);
 	}
@@ -38,6 +40,18 @@ public:
 	}
 
 	bool collide(const Actor *obj) const {
-		return getPos() == obj -> getPos();
+		return !isHidden() && !(obj -> isHidden()) && collide(obj -> getPos());
+	}
+
+	void hide() {
+		isHide = true;
+	}
+
+	void show() {
+		isHide = false;
+	}
+
+	bool isHidden() const {
+		return isHide;
 	}
 };

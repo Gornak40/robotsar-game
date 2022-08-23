@@ -19,4 +19,24 @@ public:
 	void moveLeft() {
 		if (--pos.x == -1) pos.x = 0;
 	}
+
+	bool tick(const Event &event) {
+		if (event.type != Event::KeyPressed) return false;
+		switch (event.key.code) {
+			case Keyboard::W:
+			moveUp();
+			return true;
+			case Keyboard::S:
+			moveDown();
+			return true;
+			case Keyboard::D:
+			moveRight();
+			return true;
+			case Keyboard::A:
+			moveLeft();
+			return true;
+			default:
+			return false;
+		}
+	}
 };

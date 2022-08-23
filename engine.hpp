@@ -3,44 +3,23 @@
 #include "bombs.hpp"
 #include "crown.hpp"
 #include "hero.hpp"
+#include "enemy.hpp"
 
 using namespace sf;
 
 class Engine {
 private:
 	RenderWindow window;
-	BacktileBundle backtiles;
-	Hero hero;
-	Crown crown;
-	BombBundle bombs;
+	BacktileBundle *backtiles = new BacktileBundle();
+	Hero *hero = new Hero();
+	Crown *crown = new Crown();
+	BombBundle *bombs = new BombBundle();
+	Enemy *enemy = new Enemy();
 
 	void input() {	
 		for (Event event; window.pollEvent(event);) {
-			switch (event.type) {
-				case Event::Closed:
-					window.close();
-					break;
-				case Event::KeyPressed:
-					switch (event.key.code) {
-						case Keyboard::W:
-							hero.moveUp();
-							break;
-						case Keyboard::S:
-							hero.moveDown();
-							break;
-						case Keyboard::D:
-							hero.moveRight();
-							break;
-						case Keyboard::A:
-							hero.moveLeft();
-							break;
-						default:
-							break;
-					}
-					break;
-				default:
-					break;
-			}
+			if (event.type == Event::Closed) window.close();
+			if (hero -> tick(event)) enemy -> tick(hero);
 		}
 	}
 
@@ -54,30 +33,28 @@ private:
 		window.close();
 	}
 
-	void preUpdate() {
-
-	}
-
 	void draw() {
 		window.clear();
-		backtiles.draw(window);
-		bombs.draw(window);
-		crown.draw(window);
-		hero.draw(window);
+		backtiles -> draw(window);
+		bombs -> draw(window);
+		crown -> draw(window);
+		hero -> draw(window);
+		enemy -> draw(window);
 		window.display();
 	}
 
-	void postUpdate() {
-		if (hero.collide(&crown)) win();
-		if (bombs.collide(&hero)) lose();
+	void update() {
+		if (hero -> collide(enemy)) lose();
+		if (hero -> collide(crown)) win();
+		if (bombs -> pop(hero)) lose();
+		if (bombs -> pop(enemy)) enemy -> stop();
 	}
 
 	void start() {
 		while (window.isOpen()) {
 			input();
-			preUpdate();
 			draw();
-			postUpdate();
+			update();
 		}
 	}
 
